@@ -1,8 +1,9 @@
-module address_translator(h,v,address);
+module address_translator(h,v,address,blackout);
 
 input [9:0] h;
 input [9:0] v;
 output [15:0] address;
+output blackout;
 
 parameter hpixels = 800;// horizontal pixels per line
 parameter vlines = 521; // vertical lines per frame
@@ -24,5 +25,6 @@ wire [15:0] address_calc = address_base_v + h_corrected;
 wire isValid_image = ((h_corrected < IMAGE_SIZE_H) && (v_corrected < IMAGE_SIZE_V)) ? 1 : 0;
  
 assign address = (isValid_image) ? address_calc : 0;
+assign blackout = ~isValid_image;
 
 endmodule

@@ -35,7 +35,6 @@
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="77"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="2"/>
     </file>
-    <file xil_pn:name="myimage.bin" xil_pn:type="FILE_BIN"/>
     <file xil_pn:name="../source/address_translator.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="97"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="4"/>

@@ -23,13 +23,15 @@ wire [9:0] v;
 wire [2:0] r ;
 wire [2:0] g ;
 wire [1:0] b = 0;
-wire [7:0] data;
+wire [7:0] data_raw;
 wire [15:0] address;
+wire blackout;
 
 address_translator U2(
     .v(v),
     .h(h),
-    .address(address)
+    .address(address),
+    .blackout(blackout)
 );
 
 
@@ -48,11 +50,13 @@ vga640x480 U3(
     .v(v)
 );
 
-image_rom rom(
+double_port_ram ram(
     .clk_r(vga_clk),
     .addr_r(address),
-    .data_r(data)
+    .data_r(data_raw)
 );
+
+wire [7:0] data = (blackout) ? 0 : data_raw;
 
 assign r = data[7:5];
 assign g = data[7:5];
