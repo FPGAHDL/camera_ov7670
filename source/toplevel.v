@@ -18,11 +18,20 @@ clockdiv U1(
 );
 
 //internal h v  and r g b signals
-//wire [9:0] h;
-//wire [9:0] v;
-wire [2:0] r = 3'b111;
-wire [2:0] g = 0;
+wire [9:0] h;
+wire [9:0] v;
+wire [2:0] r ;
+wire [2:0] g ;
 wire [1:0] b = 0;
+wire [7:0] data;
+wire [15:0] address;
+
+address_translator U2(
+    .v(v),
+    .h(h),
+    .address(address)
+);
+
 
 vga640x480 U3(
 	.dclk(vga_clk),
@@ -34,7 +43,18 @@ vga640x480 U3(
 	.vsync(vga_Vsync),
 	.red(vga_R),
 	.green(vga_G),
-	.blue(vga_B)
+	.blue(vga_B),
+    .h(h),
+    .v(v)
 );
+
+image_rom rom(
+    .clk_r(vga_clk),
+    .addr_r(address),
+    .data_r(data)
+);
+
+assign r = data[7:5];
+assign g = data[7:5];
 
 endmodule

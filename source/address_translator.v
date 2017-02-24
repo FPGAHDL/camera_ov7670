@@ -16,10 +16,13 @@ parameter vfp = 511; 	// beginning of vertical front porch
 parameter IMAGE_SIZE_V = 120;
 parameter IMAGE_SIZE_H = 160;
 
-assign isValid = ((v >= vbp) && (v < vfp) && (h >= hbp) && (h < hfp)) ? 1 : 0;
+wire [9:0] h_corrected = h;
+wire [9:0] v_corrected = v;
+wire [15:0] address_base_v = v_corrected * IMAGE_SIZE_H; 
+wire [15:0] address_calc = address_base_v + h_corrected;
 
-wire [15:0] address_calc = (v-vbp)*IMAGE_SIZE*IMAGE_SIZE_H + (h-hbp);
-
-assign address = (isValid) ? address_calc : 0;
+wire isValid_image = ((h_corrected < IMAGE_SIZE_H) && (v_corrected < IMAGE_SIZE_V)) ? 1 : 0;
+ 
+assign address = (isValid_image) ? address_calc : 0;
 
 endmodule
