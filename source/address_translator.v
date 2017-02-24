@@ -1,8 +1,10 @@
 module address_translator(h,v,address,blackout);
 
+parameter ADDR_BITS = 15;
+
 input [9:0] h;
 input [9:0] v;
-output [15:0] address;
+output [ADDR_BITS-1:0] address;
 output blackout;
 
 parameter hpixels = 800;// horizontal pixels per line
@@ -19,12 +21,12 @@ parameter IMAGE_SIZE_H = 160;
 
 wire [9:0] h_corrected = h;
 wire [9:0] v_corrected = v;
-wire [15:0] address_base_v = v_corrected * IMAGE_SIZE_H; 
-wire [15:0] address_calc = address_base_v + h_corrected;
+wire [ADDR_BITS:0] address_base_v = v_corrected * IMAGE_SIZE_H; 
+wire [ADDR_BITS:0] address_calc = address_base_v + h_corrected;
 
 wire isValid_image = ((h_corrected < IMAGE_SIZE_H) && (v_corrected < IMAGE_SIZE_V)) ? 1 : 0;
  
-assign address = (isValid_image) ? address_calc : 0;
+assign address = (isValid_image) ? address_calc[ADDR_BITS-1:0] : 0;
 assign blackout = ~isValid_image;
 
 endmodule

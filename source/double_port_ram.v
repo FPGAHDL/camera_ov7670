@@ -2,7 +2,7 @@
 module double_port_ram(clk_w,addr_w,data_w,en_w,clk_r,addr_r,data_r);
 
 parameter RAM_WIDTH = 8;
-parameter RAM_ADDR_BITS = 14;
+parameter RAM_ADDR_BITS = 15;
 
 input clk_w;
 input [RAM_ADDR_BITS-1:0] addr_w;
